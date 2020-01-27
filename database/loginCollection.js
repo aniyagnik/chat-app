@@ -46,8 +46,7 @@ async function insert_newLogin(accInfo){
     else
         return 'unidentified error occured. try after sometime...'    
 }
-    
-module.export={
+module.exports={
     insert_newLogin
 }    
     
