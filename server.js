@@ -12,24 +12,10 @@ server.use(function (req,res,next){
     next();
 })
 
+server.use('/dashboard',require('./chatServer')(io))
+
 server.get('/',(req,res)=>{
     res.sendFile(path.join(__dirname,'front/public/index.html'))
-})
-
-server.get('/dashboard',(req,res)=>{
-    const username='anirudh'
-    const chatWith='yagnik'
-    const message=[
-        {
-            recieve:'dsf dsfds sdf',
-            date:'sd'
-        },
-        {
-            sent:'dsf dsfds sdf',
-            date:'sd'
-        }
-    ]
-    res.render('index',{username,chatWith,message})
 })
 
 const port=8080;
