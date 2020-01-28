@@ -18,6 +18,7 @@ const socket = io();
 let selected_user=$('#chatUser').val()
 let my_username=$('#username').val()
 let socketId
+
 socket.on('connected', () => {
 })
   
