@@ -34,13 +34,6 @@ socket.on('connected', () => {
     //get usr socket.id
     socket.on('get_socketID',(socketI)=>{
         socketId=socketI.socketId
-
-        //sending username and socket.id
-        socket.emit('get_user',{
-            username:my_username,
-            socketId:socketId
-        })
-
     })   
    
    //sending message

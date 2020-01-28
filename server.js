@@ -1,34 +1,34 @@
 const express=require('express')
-const server=express();
+const app=express();
 const path=require('path')
-const hbs=require('hbs')
+const http=require('http')
+var server = http.createServer(app);
+
 const passport=require('./passport')
+var io = require('socket.io')(server);
 
 // Initialize Passport and restore authentication state, if any, from the
 // session.
-server.use(passport.initialize());
-server.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
-server.set('view engine','hbs')
-server.set('views',path.join(__dirname,'front/views'))
-server.use('/',express.static(path.join(__dirname,'front/public')))
+app.use('/',express.static(path.join(__dirname,'front/public')))
 
-server.use(function (req,res,next){
+app.use(function (req,res,next){
     console.log('handling request : ',req.url+" with method "+req.method);
     next();
 })
 
+app.use('/dashboard',require('./chatServer')(io))
 
-//server.use('/dashboard',require('./chatServer')(io))
-
-server.get('/',(req,res)=>{
+app.get('/',(req,res)=>{
     res.sendFile(path.join(__dirname,'front/public/index.html'))
 })
 
-server.get('/auth/google',
+app.get('/auth/google',
   passport.authenticate('google', { scope: ['profile'] }));
 
-server.get('/auth/google/callback', 
+app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
